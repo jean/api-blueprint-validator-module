@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+process.title = 'api-blueprint-validator';
+
+if (process.argv[2] === '-help' || process.argv.length !== 4){
+    console.log('Usage: validator <<glob expression to blueprint files>> <<failOnWarnings>>');
+    process.exit(9);
+}
+
+function callBack(success){
+    process.exit(success ? 0 : 2);
+}
+
+require('../lib/blueprint-parser').parseAndValidateFiles(process.argv[2], (process.argv[3]==='true'), callBack);
