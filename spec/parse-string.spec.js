@@ -46,6 +46,8 @@ describe("Parse String", function () {
         });
     });
 
+
+
     describe("failOnWarnings", function () {
         var dataWithWarining =
             "FORMAT: 1A\n\n" +
@@ -57,9 +59,16 @@ describe("Parse String", function () {
             "    + Body\n\n" +
             "       {\"text\":\"Zip2\",\"id\": \"1\"}";
 
+        function assertValidationResult(validationResult) {
+            assert(validationResult.errors.length === 0);
+            assert(validationResult.warnings.length === 1);
+            assert(validationResult.warnings[0].errorMessage === 'message-body asset is expected to be a pre-formatted code block, every of its line indented by exactly 12 spaces or 3 tabs on line 14');
+        }
+
         it("should fail validation", function (done) {
-            validator.parseAndValidateString(dataWithWarining, true, function(success){
+            validator.parseAndValidateString(dataWithWarining, true, function(success, validationResult){
                 assert(!success);
+                assertValidationResult(validationResult);
                 done();
             });
         });
@@ -67,8 +76,7 @@ describe("Parse String", function () {
         it("should not fail validation", function (done) {
             validator.parseAndValidateString(dataWithWarining, false, function(success, validationResult){
                 assert.ok(success);
-                assert(validationResult.errors.length === 0);
-                assert(validationResult.warnings.length === 1);
+                assertValidationResult(validationResult);
                 done();
             });
         });
