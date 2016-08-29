@@ -2,7 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/api-blueprint-validator-module.svg)](http://badge.fury.io/js/api-blueprint-validator-module) [![Build Status](https://travis-ci.org/Aconex/api-blueprint-validator-module.svg)](https://travis-ci.org/Aconex/api-blueprint-validator-module)
 
-> Module that validates Blueprint files.
+Module that validates Blueprint files.
+
 
 ## Installation
 
