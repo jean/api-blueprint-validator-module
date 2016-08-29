@@ -22,4 +22,20 @@ describe("Parse Files", function () {
         });
     });
 
+    describe("failOnWarnings", function () {
+        it("should fail validation", function (done) {
+            validator.parseAndValidateFiles("./spec/md/simple-api-warning-spec.md", true, function(success){
+                assert(!success);
+                done();
+            });
+        });
+
+        it("should not fail validation", function (done) {
+            validator.parseAndValidateFiles("./spec/md/simple-api-warning-spec.md", false, function(success){
+                assert.ok(success);
+                done();
+            });
+        });
+    });
+
 });
