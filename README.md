@@ -16,7 +16,7 @@ Creating the validator
 
 ### Blueprint Parse Warnings
 
-The API Blueprint Validator can be configured to ignore warning or to fail on them. 
+The API Blueprint Validator can be configured to ignore warnings or to fail on them. 
  
 ### Validation Callback
 
@@ -39,9 +39,13 @@ The validation expects a callback function such as:
  
 ### File validation
 
+THe blueprint validator can be used to validate a single file or a collection of files. It uses a glob expression to locate files to be validated.
+
 `blueprintValidator.parseAndValidateFiles(<<glob expression>>, failOnWarnings, function(success, validationResult))`
 
 ### String validation
+
+String data can also be validated. It is useful when you have the blueprint content available within your process.
 
 `blueprintValidator.parseAndValidateFiles(blueprintData, failOnWarnings, function(success, validationResult))`
 
