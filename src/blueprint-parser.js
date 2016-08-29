@@ -84,8 +84,11 @@ exports.parseAndValidateFiles = function(filesPath, failOnWarnings, cb) {
 
 };
 
-exports.parseAndValidateString = function(data, cb) {
-    var validatorResult = {data: data,errors: [],warnings: []};
-
-    parseBlueprintData(data, createParseResultHandler(validatorResult, cb));
+exports.parseAndValidateString = function(data, failOnWarnings, cb) {
+    var validatorResult = {data: data, errors: [], warnings: []};
+    parseBlueprintData(data, createParseResultHandler(validatorResult, function(error, singleValidationResult){
+        var fail = singleValidationResult.errors.length > 0 ||
+                        (failOnWarnings && singleValidationResult.warnings.length > 0);
+        cb(!fail, singleValidationResult);
+    }));
 };

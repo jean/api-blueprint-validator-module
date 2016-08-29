@@ -1,20 +1,24 @@
 module.exports = function (grunt) {
     'use strict';
 
-    // Project configuration.
     grunt.initConfig({
         jshint: {
-            src: ['src/**/*.js'],
+            src: ['src/**/*.js', 'spec/*.js'],
             options: {
                 jshintrc: '.jshintrc'
+            }
+        },
+        simplemocha: {
+            all: {
+                src: ['spec/*.spec.js']
             }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-simple-mocha');
 
-    grunt.registerTask('test', ['jshint']);
-
+    grunt.registerTask('test', ['jshint', 'simplemocha']);
     grunt.registerTask('default', ['test']);
 
 };
