@@ -23,30 +23,6 @@ var getExamples = function(ast, callback) {
     });
 };
 
-function parseBlueprintData(data, cb) {
-    drafter.parse(data, PARSER_OPTIONS, function (error, result) {
-        if (error) {
-            return cb(error, null, data);
-        }
-        cb(false, result, data);
-    });
-}
-function readFileAndParseBlueprint(file, cb) {
-    var data = fs.readFileSync(file, {encoding: 'utf8'});
-    parseBlueprintData(data, cb);
-}
-
-function getParser(file) {
-    return function(asyncCb) {
-        parseFile(file, asyncCb);
-    };
-}
-
-function parseFile(file, cb) {
-    var validatorResult = {file: file, errors: [], warnings: []};
-    readFileAndParseBlueprint(file, createParseResultHandler(validatorResult, cb));
-}
-
 var createParseResultHandler = function(validatorResult, cb) {
     return function (error, result, blueprintData) {
         if (error) {
@@ -69,6 +45,31 @@ var createParseResultHandler = function(validatorResult, cb) {
         cb(null, validatorResult);
     };
 };
+
+function parseBlueprintData(data, cb) {
+    drafter.parse(data, PARSER_OPTIONS, function (error, result) {
+        if (error) {
+            return cb(error, null, data);
+        }
+        cb(false, result, data);
+    });
+}
+
+function readFileAndParseBlueprint(file, cb) {
+    var data = fs.readFileSync(file, {encoding: 'utf8'});
+    parseBlueprintData(data, cb);
+}
+
+function parseFile(file, cb) {
+    var validatorResult = {file: file, errors: [], warnings: []};
+    readFileAndParseBlueprint(file, createParseResultHandler(validatorResult, cb));
+}
+
+function getParser(file) {
+    return function(asyncCb) {
+        parseFile(file, asyncCb);
+    };
+}
 
 exports.parseAndValidateFiles = function(filesPath, failOnWarnings, cb) {
     var parallelTasks;

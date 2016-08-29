@@ -11,4 +11,4 @@ function callBack(success){
     process.exit(success ? 0 : 2);
 }
 
-require('../lib/blueprint-parser').parseAndValidateFiles(process.argv[2], (process.argv[3]==='true'), callBack);
+require('../src/blueprint-parser').parseAndValidateFiles(process.argv[2], (process.argv[3]==='true'), callBack);
