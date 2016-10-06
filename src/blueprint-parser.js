@@ -26,14 +26,18 @@ var getExamples = function(ast, callback) {
 var createParseResultHandler = function(validatorResult, cb) {
     return function (error, result, blueprintData) {
         if (error) {
-            var lineNumber = lineNumberFromCharacterIndex(blueprintData, error.location[0].index);
-            validatorResult.errors.push({errorMessage: 'Error: ' + error.message + ' on line ' + lineNumber});
+            var lineNumber = lineNumberFromCharacterIndex(blueprintData, error.result.error.location[0].index);
+            validatorResult.errors.push({errorMessage: 'Error: ' + error.result.error.message + ' on line ' + lineNumber});
         } else {
             if (result.warnings.length) {
-                validatorResult.warnings = result.warnings.map(function (warning) {
+                validatorResult.warnings = result.warnings.reduce(function (warnings, warning) {
+                  if (warning.location.length) {
                     var lineNumber = lineNumberFromCharacterIndex(blueprintData, warning.location[0].index);
-                    return {errorMessage: warning.message + ' on line ' + lineNumber};
-                });
+                    return warnings.concat({ errorMessage: warning.message + ' on line ' + lineNumber });
+                  }
+
+                  return warnings.concat({ errorMessage: warning.message });
+                }, []);
             }
 
             getExamples(result.ast, function (example, action, resource, resourceGroup) {
