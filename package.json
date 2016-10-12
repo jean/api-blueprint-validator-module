@@ -20,6 +20,7 @@
       "url": "https://github.com/Aconex/api-blueprint-validator-module/blob/master/LICENSE-MIT"
     }
   ],
+  "bin": "./bin/validator",
   "scripts": {
     "test": "grunt test"
   },
